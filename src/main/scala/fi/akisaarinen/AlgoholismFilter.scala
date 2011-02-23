@@ -37,6 +37,8 @@ class AlgoholismFilter extends ScalatraFilter {
   }
 
   private def getBody(body: String, paramNames: Iterable[String]): String = {
+    // Sometimes scalatra seems to eat the body and put the content to first
+    // key of the map. I didn't want to invest time on finding out why, this'll do :-)
     if (paramNames.size > 0) paramNames.head else body
   }
 
