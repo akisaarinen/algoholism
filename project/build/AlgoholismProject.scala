@@ -1,6 +1,6 @@
 import sbt._
 
-class AlgoholismProject(info: ProjectInfo) extends DefaultWebProject(info) {
+class AlgoholismProject(info: ProjectInfo) extends DefaultWebProject(info) with IdeaProject {
   val scalatraVersion = "2.0.0.M2"
   val scalatra = "org.scalatra" %% "scalatra" % scalatraVersion
   val servletApi = "org.mortbay.jetty" % "servlet-api" % "2.5-20081211" % "provided"
