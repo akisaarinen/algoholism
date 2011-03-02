@@ -17,10 +17,10 @@ class AlgoholismFilter extends ScalatraFilter {
   }
   
   post("/") {
+    contentType = "application/json"
     val input = getBody(request.body, params.keys)
     if (input.size > 0) {
       val json = JsonParser.parse(input)
-      contentType = "application/json"
       JsonDSL.compact(process(json)) + "\n"
     } else {
       ""
@@ -35,6 +35,7 @@ class AlgoholismFilter extends ScalatraFilter {
       </body>
     </html>
   }
+
 
   private def getBody(body: String, paramNames: Iterable[String]): String = {
     // Sometimes scalatra seems to eat the body and put the content to first
