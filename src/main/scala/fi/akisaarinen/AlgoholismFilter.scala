@@ -55,8 +55,13 @@ class AlgoholismFilter extends ScalatraFilter {
 
     val input = Input(name, timeoutMs, items, constraints)
 
-    println("input: " + input)
-    render(List(1,3))
+    render(calculateBestAnswer(input))
+  }
+
+  private def calculateBestAnswer(input: Input): List[Int] = {
+    return input.items.filter { item =>
+      item.id != 2
+    }.map(_.id)
   }
 
   private def getString(json: JsonAST.JValue, field: String): String = {
