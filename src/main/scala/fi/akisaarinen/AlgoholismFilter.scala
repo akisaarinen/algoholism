@@ -48,17 +48,59 @@ class AlgoholismFilter extends ScalatraFilter {
     import net.liftweb.json.JsonAST._
     import net.liftweb.json.JsonDSL._
 
-    val name = getField(json, "a")
-    val timeoutMs = getField(json, "b")
+    val name = getString(json, "a")
+    val timeoutMs = getInt(json, "b")
+    val items = getItemList(json, "c")
+    val constraints = getIntList(json, "g")
 
-    render(List(name, timeoutMs))
+    val input = Input(name, timeoutMs, items, constraints)
+
+    println("input: " + input)
+    render(List(1,3))
   }
 
-  private def getField(json: JsonAST.JValue, field: String): String = {
+  private def getString(json: JsonAST.JValue, field: String): String = {
     import net.liftweb.json.JsonAST._
     import net.liftweb.json.JsonDSL._
     json \\ field match {
       case JField(_, JString(value)) => value.toString
+    }
+  }
+
+  private def getInt(json: JsonAST.JValue, field: String): Int = {
+    import net.liftweb.json.JsonAST._
+    import net.liftweb.json.JsonDSL._
+    json \\ field match {
+      case JField(_, JInt(value)) => value.toInt
+    }
+  }
+
+  private def getItemList(json: JsonAST.JValue, field: String): List[Item] = {
+    import net.liftweb.json.JsonAST._
+    import net.liftweb.json.JsonDSL._
+    json \\ field match {
+      case JField(_, JArray(items)) => items.map { item =>
+        item match {
+          case JObject(foo) => {
+            val id = getInt(foo, "id")
+            val costs = getIntList(foo, "e")
+            val value = getInt(foo, "f")
+            Item(id, value, costs)
+          }
+        }
+      }
+    }
+  }
+
+  private def getIntList(json: JsonAST.JValue, field: String): List[Int] = {
+    import net.liftweb.json.JsonAST._
+    import net.liftweb.json.JsonDSL._
+    json \\ field match {
+      case JField(_, JArray(items)) => items.map { item =>
+        item match {
+          case JInt(value) => value.toInt
+        }
+      }
     }
   }
 }
