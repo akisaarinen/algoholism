@@ -1,3 +1,3 @@
 package fi.akisaarinen
 
-case class Item(id: Int, value: Int, weight: List[Int])
+case class Item(id: String, value: Int, weight: List[Int])

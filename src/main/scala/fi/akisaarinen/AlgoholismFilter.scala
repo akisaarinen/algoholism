@@ -58,7 +58,7 @@ class AlgoholismFilter extends ScalatraFilter {
     render(calculateBestAnswer(input))
   }
 
-  private def calculateBestAnswer(input: Input): List[Int] = {
+  private def calculateBestAnswer(input: Input): List[String] = {
     return input.items.filter { item =>
       item.id != 2
     }.map(_.id)
@@ -87,7 +87,7 @@ class AlgoholismFilter extends ScalatraFilter {
       case JField(_, JArray(items)) => items.map { item =>
         item match {
           case JObject(foo) => {
-            val id = getInt(foo, "id")
+            val id = getString(foo, "id")
             val weight = getIntList(foo, "weight")
             val value = getInt(foo, "value")
             Item(id, value, weight)
