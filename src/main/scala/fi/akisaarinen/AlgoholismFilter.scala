@@ -48,12 +48,12 @@ class AlgoholismFilter extends ScalatraFilter {
     import net.liftweb.json.JsonAST._
     import net.liftweb.json.JsonDSL._
 
-    val name = getString(json, "a")
-    val timeoutMs = getInt(json, "b")
-    val items = getItemList(json, "c")
-    val constraints = getIntList(json, "g")
+    val name = getString(json, "name")
+    val timeoutMs = getInt(json, "timeout")
+    val items = getItemList(json, "contents")
+    val capacity = getIntList(json, "capacity")
 
-    val input = Input(name, timeoutMs, items, constraints)
+    val input = Input(name, timeoutMs, items, capacity)
 
     render(calculateBestAnswer(input))
   }
@@ -88,9 +88,9 @@ class AlgoholismFilter extends ScalatraFilter {
         item match {
           case JObject(foo) => {
             val id = getInt(foo, "id")
-            val costs = getIntList(foo, "e")
-            val value = getInt(foo, "f")
-            Item(id, value, costs)
+            val weight = getIntList(foo, "weight")
+            val value = getInt(foo, "value")
+            Item(id, value, weight)
           }
         }
       }
